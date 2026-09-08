@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+
+  <!-- 基础 SEO -->
+  <title>知飞赛事管理系统 · 无人机足球 / POP 穿越 / FPV 一站式办赛平台</title>
+  <meta name="description" content="知飞赛事 SaaS 系统，覆盖无人机足球、POP 穿越、翼客虚拟飞行、FPV 竞速等赛事类型。新建赛事、设置赛制（单败/双败/小组赛）、分配队伍、复制模板、归档历史，一站完成。支持 PC 和移动端。运营人员/赛事主办方专业工具。" />
+  <meta name="keywords" content="知飞赛事,无人机足球,POP穿越,翼客虚拟飞行,FPV竞速,SaaS赛事系统,赛事管理,赛制编排,小组循环赛,单败淘汰,双败淘汰,无人机比赛" />
+  <meta name="author" content="知飞 SaaS" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://evergreen0330.github.io/zhifei-tournament/" />
+
+  <!-- Open Graph (微信/QQ/微博/钉钉分享卡) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="知飞赛事管理系统" />
+  <meta property="og:title" content="知飞赛事 · 一站式办赛 SaaS 平台" />
+  <meta property="og:description" content="无人机足球 / POP 穿越 / FPV / 翼客虚拟飞行赛事，从创建到归档全流程数字化。支持 PC + 移动端。" />
+  <meta property="og:url" content="https://evergreen0330.github.io/zhifei-tournament/" />
+  <meta property="og:image" content="https://evergreen0330.github.io/zhifei-tournament/og-cover.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="zh_CN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="知飞赛事 · 一站式办赛 SaaS 平台" />
+  <meta name="twitter:description" content="无人机足球 / POP 穿越 / FPV / 翼客虚拟飞行赛事，从创建到归档全流程数字化。" />
+  <meta name="twitter:image" content="https://evergreen0330.github.io/zhifei-tournament/og-cover.svg" />
+
+  <!-- 结构化数据 JSON-LD (Google 富卡片) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "知飞赛事管理系统",
+    "description": "面向无人机足球、POP 穿越、翼客虚拟飞行、FPV 竞速等赛事的一站式办赛 SaaS 平台。",
+    "url": "https://evergreen0330.github.io/zhifei-tournament/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any (Web)",
+    "inLanguage": "zh-CN",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CNY"
+    },
+    "featureList": [
+      "新建赛事",
+      "赛制模式：单败淘汰 / 双败淘汰 / 小组循环 / 小组赛+淘汰赛",
+      "赛事复制为模板",
+      "赛事归档与历史管理",
+      "PC + 移动端响应式"
+    ]
+  }
+  </script>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2306b6d4'/%3E%3Cstop offset='1' stop-color='%232563eb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M14 42 L28 22 L36 30 L50 18' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='50' cy='18' r='4' fill='white'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- 移动端顶栏 -->
+  <header class="mobile-topbar">
+    <button class="icon-btn" id="openDrawer" aria-label="打开菜单">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">知飞赛事</span>
+    </div>
+    <button class="icon-btn" id="mobileNewBtn" aria-label="新建赛事">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </header>
+
+  <div class="app">
+    <!-- 侧边栏 -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-head">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div class="brand-text">
+            <div class="brand-name">知飞赛事</div>
+            <div class="brand-sub">Saas Tournament Platform</div>
+          </div>
+        </div>
+        <button class="icon-btn only-mobile" id="closeDrawer" aria-label="关闭菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item active" data-view="list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+          <span>赛事管理</span>
+        </a>
+        <a class="nav-item" data-view="list" data-filter="running">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span>进行中</span>
+        </a>
+        <a class="nav-item" data-view="list" data-filter="draft">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span>草稿</span>
+        </a>
+        <a class="nav-item" data-view="list" data-filter="archived">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="4" height="16" rx="1"/><rect x="9" y="4" width="4" height="16" rx="1"/><path d="M17 4v16"/><path d="M3 4h18"/></svg>
+          <span>归档赛事</span>
+        </a>
+      </nav>
+
+      <div class="side-card">
+        <div class="side-card-title">模块进度</div>
+        <div class="side-card-progress">
+          <div class="bar"><span style="width:18%"></span></div>
+          <div class="pct">1 / 6 模块</div>
+        </div>
+        <ul class="side-card-list">
+          <li class="on"><i></i>① 赛事基础管理 <em>v0.1</em></li>
+          <li>② 报名与队伍</li>
+          <li>③ 赛程编排</li>
+          <li>④ 实时计分</li>
+          <li>⑤ 直播 / 数据</li>
+          <li>⑥ 财务 / 权限</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-foot">
+        <div class="user">
+          <div class="avatar">E</div>
+          <div class="user-meta">
+            <div class="user-name">Evergreen</div>
+            <div class="user-role">运营管理员</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="backdrop"></div>
+
+    <!-- 主内容 -->
+    <main class="main">
+      <!-- 列表视图 -->
+      <section class="view view-list" id="viewList">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">赛事管理</h1>
+            <p class="page-sub">模块一 · 创建、复办、归档你的所有赛事</p>
+          </div>
+          <button class="btn btn-primary" id="newEventBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            <span>新建赛事</span>
+          </button>
+        </div>
+
+        <!-- 状态统计 -->
+        <div class="stat-grid">
+          <div class="stat" data-status="draft">
+            <div class="stat-label"><i class="dot dot-gray"></i>草稿</div>
+            <div class="stat-value" id="cnt-draft">0</div>
+            <div class="stat-foot">尚未对外发布</div>
+          </div>
+          <div class="stat" data-status="ready">
+            <div class="stat-label"><i class="dot dot-blue"></i>筹备中</div>
+            <div class="stat-value" id="cnt-ready">0</div>
+            <div class="stat-foot">报名 / 编排进行中</div>
+          </div>
+          <div class="stat" data-status="running">
+            <div class="stat-label"><i class="dot dot-green"></i>进行中</div>
+            <div class="stat-value" id="cnt-running">0</div>
+            <div class="stat-foot">比赛正在进行</div>
+          </div>
+          <div class="stat" data-status="finished">
+            <div class="stat-label"><i class="dot dot-muted"></i>已结束</div>
+            <div class="stat-value" id="cnt-finished">0</div>
+            <div class="stat-foot">本届已完赛</div>
+          </div>
+        </div>
+
+        <!-- 工具栏 -->
+        <div class="toolbar">
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+            <input id="searchInput" placeholder="搜索赛事名称 / 主办方 / 地点" />
+          </div>
+          <div class="filters">
+            <select id="filterType">
+              <option value="">全部类型</option>
+              <option>无人机足球</option>
+              <option>POP 穿越</option>
+              <option>翼客虚拟飞行</option>
+              <option>FPV 竞速</option>
+              <option>无人机表演</option>
+              <option>其他</option>
+            </select>
+            <select id="filterStatus">
+              <option value="">全部状态</option>
+              <option value="draft">草稿</option>
+              <option value="ready">筹备中</option>
+              <option value="running">进行中</option>
+              <option value="finished">已结束</option>
+              <option value="archived">已归档</option>
+            </select>
+            <button class="btn btn-ghost" id="resetFilter">重置</button>
+          </div>
+        </div>
+
+        <!-- 赛事列表 -->
+        <div class="event-grid" id="eventGrid"></div>
+        <div class="empty" id="emptyState" hidden>
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4Z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
+          </div>
+          <div class="empty-title">暂无赛事</div>
+          <div class="empty-sub">点击右上角「新建赛事」开始你的第一场赛事</div>
+        </div>
+      </section>
+
+      <!-- 表单视图 -->
+      <section class="view view-form" id="viewForm" hidden>
+        <div class="page-head">
+          <button class="btn btn-ghost" id="backToList">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            <span>返回赛事列表</span>
+          </button>
+        </div>
+
+        <div class="form-shell">
+          <div class="form-head">
+            <h2 id="formTitle">新建赛事</h2>
+            <p id="formSub">填写基础信息、赛制设置即可创建一场赛事</p>
+          </div>
+
+          <!-- 步骤条 -->
+          <ol class="stepper" id="stepper">
+            <li class="on" data-step="1"><span>1</span><em>基本信息</em></li>
+            <li data-step="2"><span>2</span><em>赛制设置</em></li>
+            <li data-step="3"><span>3</span><em>预览提交</em></li>
+          </ol>
+
+          <form id="eventForm" novalidate>
+            <!-- Step 1 基本信息 -->
+            <div class="step-pane" data-pane="1">
+              <div class="grid-2">
+                <div class="field">
+                  <label>赛事名称 <em>*</em></label>
+                  <input name="name" placeholder="例如：2026 全国青少年无人机足球联赛·上海站" required />
+                </div>
+                <div class="field">
+                  <label>赛事类型 <em>*</em></label>
+                  <select name="type" required>
+                    <option value="">请选择类型</option>
+                    <option>无人机足球</option>
+                    <option>POP 穿越</option>
+                    <option>翼客虚拟飞行</option>
+                    <option>FPV 竞速</option>
+                    <option>无人机表演</option>
+                    <option>其他</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>开始时间 <em>*</em></label>
+                  <input type="datetime-local" name="startAt" required />
+                </div>
+                <div class="field">
+                  <label>结束时间</label>
+                  <input type="datetime-local" name="endAt" />
+                </div>
+                <div class="field">
+                  <label>赛事地点 <em>*</em></label>
+                  <input name="location" placeholder="例如：上海·国家会展中心 7H 馆" required />
+                </div>
+                <div class="field">
+                  <label>主办方</label>
+                  <input name="organizer" placeholder="例如：中国航空运动协会" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label>赛事 Logo</label>
+                <div class="uploader">
+                  <div class="uploader-preview" id="logoPreview">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+                  </div>
+                  <div class="uploader-body">
+                    <div class="uploader-tip">支持 PNG / JPG / SVG，建议 1:1，最大 2MB</div>
+                    <div class="uploader-actions">
+                      <label class="btn btn-ghost">
+                        <input type="file" accept="image/*" id="logoInput" hidden />
+                        上传 Logo
+                      </label>
+                      <button class="btn btn-link" type="button" id="logoClear">移除</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>赛事简介</label>
+                <textarea name="intro" rows="4" placeholder="介绍赛事背景、参赛群体、亮点等（200 字以内）" maxlength="200"></textarea>
+                <div class="counter"><span id="introCount">0</span> / 200</div>
+              </div>
+            </div>
+
+            <!-- Step 2 赛制设置 -->
+            <div class="step-pane" data-pane="2" hidden>
+              <div class="field">
+                <label>赛制模式 <em>*</em></label>
+                <div class="format-grid" id="formatGrid">
+                  <label class="format-card" data-value="单败淘汰">
+                    <input type="radio" name="format" value="单败淘汰" required />
+                    <div class="format-icon">🏆</div>
+                    <div class="format-name">单败淘汰</div>
+                    <div class="format-desc">输一场即出局，节奏快、刺激</div>
+                  </label>
+                  <label class="format-card" data-value="双败淘汰">
+                    <input type="radio" name="format" value="双败淘汰" />
+                    <div class="format-icon">⚔️</div>
+                    <div class="format-name">双败淘汰</div>
+                    <div class="format-desc">设有败者组，决赛更公平</div>
+                  </label>
+                  <label class="format-card" data-value="小组循环赛">
+                    <input type="radio" name="format" value="小组循环赛" />
+                    <div class="format-icon">🔁</div>
+                    <div class="format-name">小组循环赛</div>
+                    <div class="format-desc">组内互交手，按积分排名</div>
+                  </label>
+                  <label class="format-card" data-value="小组赛+淘汰赛">
+                    <input type="radio" name="format" value="小组赛+淘汰赛" />
+                    <div class="format-icon">🧩</div>
+                    <div class="format-name">小组赛+淘汰赛</div>
+                    <div class="format-desc">先小组后淘汰，覆盖大多数正式赛</div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="field">
+                  <label>参赛队伍数量 <em>*</em></label>
+                  <input type="number" name="teamCount" min="2" max="256" placeholder="例如：16" required />
+                </div>
+                <div class="field">
+                  <label>分组数量</label>
+                  <input type="number" name="groupCount" min="1" max="32" placeholder="自动推断（小组制时启用）" />
+                </div>
+                <div class="field">
+                  <label>每组队伍数</label>
+                  <input type="number" name="perGroup" min="2" max="16" placeholder="例如：4" />
+                </div>
+                <div class="field">
+                  <label>晋级名额</label>
+                  <input type="number" name="qualifier" min="1" max="32" placeholder="例如：2" />
+                </div>
+              </div>
+
+              <div class="hint">
+                <strong>小提示：</strong>
+                选择「小组赛+淘汰赛」时，系统会自动按「每组队伍数 × 分组数量」校验总数。
+                高级参数（赛程 BO 几局几胜、单循环 / 双循环等）在后续模块「赛程编排」提供。
+              </div>
+            </div>
+
+            <!-- Step 3 预览 -->
+            <div class="step-pane" data-pane="3" hidden>
+              <div class="preview" id="previewBox"></div>
+            </div>
+
+            <!-- 操作栏 -->
+            <div class="form-actions">
+              <button type="button" class="btn btn-ghost" id="prevStep" hidden>上一步</button>
+              <div class="spacer"></div>
+              <button type="button" class="btn btn-ghost" id="saveDraft">保存为草稿</button>
+              <button type="button" class="btn btn-primary" id="nextStep">下一步</button>
+              <button type="submit" class="btn btn-primary" id="submitBtn" hidden>提交创建</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- 详情视图 -->
+      <section class="view view-detail" id="viewDetail" hidden>
+        <div class="page-head">
+          <button class="btn btn-ghost" id="backToList2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            <span>返回赛事列表</span>
+          </button>
+          <div class="head-actions">
+            <button class="btn btn-ghost" id="detailEdit">编辑</button>
+            <button class="btn btn-ghost" id="detailDuplicate">复制</button>
+            <button class="btn btn-danger" id="detailArchive">归档</button>
+          </div>
+        </div>
+        <div class="detail-shell" id="detailBody"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- 确认弹窗 -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-title" id="modalTitle">确认</div>
+      <div class="modal-body" id="modalBody">确定执行此操作？</div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modalCancel">取消</button>
+        <button class="btn btn-danger" id="modalOk">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
