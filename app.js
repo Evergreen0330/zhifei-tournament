@@ -19,12 +19,12 @@
   };
 
   const TYPE_META = {
-    '无人机足球':     { icon: '⚽', color: '#06b6d4' },
-    'POP 穿越':       { icon: '🛩️', color: '#8b5cf6' },
-    '翼客虚拟飞行':   { icon: '🎮', color: '#f97316' },
-    'FPV 竞速':       { icon: '🏁', color: '#ef4444' },
-    '无人机表演':     { icon: '✨', color: '#10b981' },
-    '其他':           { icon: '🚩', color: '#64748b' },
+    '无人机足球':     { icon: '足', color: '#2563eb' },
+    'POP 穿越':       { icon: '穿', color: '#7c3aed' },
+    '翼客虚拟飞行':   { icon: '虚', color: '#0891b2' },
+    'FPV 竞速':       { icon: '竞', color: '#dc2626' },
+    '无人机表演':     { icon: '演', color: '#059669' },
+    '其他':           { icon: '其', color: '#64748b' },
   };
 
   // 种子数据：方便首屏有内容展示
