@@ -37,6 +37,9 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 input, select, textarea { font: inherit; color: inherit; }
 em { font-style: normal; }
 
+/* 始终让 [hidden] 属性生效，覆盖 .modal/.btn 等元素上的 display 设置 */
+[hidden] { display: none !important; }
+
 .tabular { font-variant-numeric: tabular-nums; }
 
 /* ============ Layout ============ */
